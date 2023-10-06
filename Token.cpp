@@ -3,7 +3,7 @@
 using namespace std;
 //definicion de las variables
 int tokenreservadas;
-int cont=0;
+int cont,banR;
 string linea,token,cadenat[100],cadenavacia;
 string reservadas[13]={"and","else","false","for","fun","if","null","or","print","return","true","var","while"};
 //Funcion para identificacion de las palabras reservadas
@@ -31,18 +31,48 @@ bool palabrasR(string linea){
     return false;
 }
 
+string Racionales(char token,int posicion){
+    switch (token){
+    case '>':
+        if (linea[posicion+1]=='=') return "GE";
+        else return "GT";
+        break;
+    case '<':
+        if (linea[posicion+1]=='=') return "LE";
+        else return "LT";
+        break;
+    case '=':
+        if (linea[posicion+1]=='=') return "EQO";
+        else return "EQ";
+        break;
+    case '!':
+        if (linea[posicion+1]=='=') return "NE";
+        else return "BANG";
+        break;
+    default:
+        break;
+    }
+}
+
 int main()
 {
     //este es el main por el momento hay cosas temporales sobretodo como separo las cadenas
     getline(cin,linea);
     for (int i = 0; i <linea.length(); i++){
-        if (linea[i] == 32 or linea[i] == 10){
+        if (linea[i] == '>' || linea[i] == '<' || linea[i] == '=' || linea[i] =='!'){
+            if (banR==0){
+                cout<<Racionales(linea[i],i)<<"\n";
+                banR=1;
+            }
+            else banR=0;
+        }
+        if ( (linea[i] >= 65 && linea[i] <= 90) || (linea[i] >= 97 && linea[i] <= 122) ){
+            token += linea[i];
+        }
+        else{
             cadenat[cont] = token;
             token =cadenavacia;
             cont++;
-        }
-        else{
-            token += linea[i];
         }
     }
     cout << "Palabras reservadas: ";
