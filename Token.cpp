@@ -3,8 +3,8 @@
 using namespace std;
 //definicion de las variables
 int tokenreservadas;
-int cont,banR;
-string linea,token,cadenat[100],cadenavacia;
+int cont,iteradorCad;
+string linea,token,cadenat[100],tokencadena,cadenavacia;
 string reservadas[13]={"and","else","false","for","fun","if","null","or","print","return","true","var","while"};
 //Funcion para identificacion de las palabras reservadas
 bool palabrasR(string linea){
@@ -50,8 +50,19 @@ string Racionales(char token,int posicion){
         else return "BANG";
         break;
     default:
+        return "UNKNOWN";
         break;
     }
+}
+
+bool Icadenas(string linea,int posicion){
+    posicion ++;
+    for (posicion; posicion < linea.length(); posicion++){
+        if(linea[posicion]=='"') return true;
+        tokencadena += linea[posicion];
+        iteradorCad++;
+    }
+    return false;
 }
 
 int main()
@@ -59,12 +70,22 @@ int main()
     //este es el main por el momento hay cosas temporales sobretodo como separo las cadenas
     getline(cin,linea);
     for (int i = 0; i <linea.length(); i++){
-        if (linea[i] == '>' || linea[i] == '<' || linea[i] == '=' || linea[i] =='!'){
-            if (banR==0){
-                cout<<Racionales(linea[i],i)<<"\n";
-                banR=1;
+        if (linea[i]=='"'){
+            if(Icadenas(linea,i)==true){
+                cout<<tokencadena<<"\n";
+                tokencadena=cadenavacia;
+                i=iteradorCad+i+2;
+                iteradorCad=0;
             }
-            else banR=0;
+            else {
+                cout<<"ERROOOOOOOOOR"<<"\n";
+                //break;
+            }
+        }
+        if (linea[i] == '>' || linea[i] == '<' || linea[i] == '=' || linea[i] =='!'){
+            if (linea[i-1] != '>' && linea[i-1] != '<' && linea[i-1] != '=' && linea[i-1] !='!'){
+                cout<<Racionales(linea[i],i)<<"\n";
+            }
         }
         if ( (linea[i] >= 65 && linea[i] <= 90) || (linea[i] >= 97 && linea[i] <= 122) ){
             token += linea[i];
