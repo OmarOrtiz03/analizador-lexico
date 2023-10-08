@@ -284,8 +284,11 @@ public class Scanner {
 
                     }
                     else if(c == '”'){
-                        estado = 25;
-                        lexema += c;
+                        Token t = new Token(TipoToken.STRING, lexema, lexema.substring(1, lexema.length-1));
+                        tokens.add(t);
+
+                        estado = 0;
+                        lexema = "";
                     }
                     else{ //Cualquier caracter
                         estado = 24;
