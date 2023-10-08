@@ -322,6 +322,32 @@ public class Scanner {
                         lexema += c;
                     }
                     break;
+
+                case 28:
+                    if(c == '*'){
+                        estado = 28;
+                        lexema += c;
+                    }
+                    else if(c == '/'){ //No genera token
+                        estado = 0;
+                        lexema += c;
+                    }
+                    else{
+                        estado = 27;
+                        lexema += c;
+                    }
+                    break;
+                
+                case 30:
+                    if(c == '\n'){ //No genera token
+                        estado = 0;
+                        lexema += c;
+                    }
+                    else{
+                        estado = 30;
+                        lexema += c;
+                    }
+                    break;
             }
 
 
