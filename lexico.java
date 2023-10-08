@@ -278,6 +278,20 @@ public class Scanner {
                         i--;
                     }
                     break;
+
+                case 24:
+                    if(c == '\n'){ //Error de salto de linea
+
+                    }
+                    else if(c == '”'){
+                        estado = 25;
+                        lexema += c;
+                    }
+                    else{ //Cualquier caracter
+                        estado = 24;
+                        lexema += c;
+                    }
+                    break;
             }
 
 
