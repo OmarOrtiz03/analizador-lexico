@@ -292,6 +292,25 @@ public class Scanner {
                         lexema += c;
                     }
                     break;
+
+                case 26:
+                    if(c == '*'){
+                        estado = 27;
+                        lexema += c;
+                    }
+                    else if(c == '/'){
+                        estado = 30;
+                        lexema += c;
+                    }
+                    else{
+                        Token t = new Token(TipoToken.SLASH, lexema, null);
+                        tokens.add(t);
+
+                        estado = 0;
+                        lexema = "";
+                        i--;
+                    }
+                    break;
             }
 
 
