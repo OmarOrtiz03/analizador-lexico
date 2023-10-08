@@ -311,6 +311,17 @@ public class Scanner {
                         i--;
                     }
                     break;
+
+                case 27:
+                    if(c == '*'){
+                        estado = 28;
+                        lexema += c;
+                    }
+                    else{
+                        estado = 27;
+                        lexema += c;
+                    }
+                    break;
             }
 
 
