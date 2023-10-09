@@ -349,7 +349,7 @@ public class Scanner {
 
                     }
                     else if(c == '"'){
-                        Token t = new Token(TipoToken.STRING, lexema, lexema.substring(1, lexema.length-1));
+                        Token t = new Token(TipoToken.STRING, lexema, lexema.substring(1, lexema.length()-1));
                         tokens.add(t);
 
                         estado = 0;
