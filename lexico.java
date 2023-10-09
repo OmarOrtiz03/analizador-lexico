@@ -33,6 +33,7 @@ public class Scanner {
     }
 
     public List<Token> scan() throws Exception {
+        int lineaArchivo=1;
         int estado = 0;
         String lexema = "";
         char c;
@@ -72,11 +73,10 @@ public class Scanner {
                     }
                     else if(c == '/'){
                         estado = 26;
-                        lexema += c;
                     }
                     else if(c=='('){
                         lexema+=c;  
-                        tokens.add(new Token(TipoToken.LEFT_PAREN, lexema,null) );
+                        tokens.add(new Token(TipoToken.LEFT_PAREN, lexema));
                         lexema="";
                         estado=0; 
                     }
@@ -128,12 +128,6 @@ public class Scanner {
                         estado=0;
                         lexema="";
                     }  
-                    else if(c == '/'){
-                        lexema += c;
-                        tokens.add(new Token(TipoToken.SLASH, lexema,null) );
-                        lexema = "";
-                        estado = 0; 
-                    }
                     else if(c == '*'){
                         lexema += c;
                         tokens.add(new Token(TipoToken.STAR, lexema,null) );
@@ -146,10 +140,14 @@ public class Scanner {
                         lexema = "";
                         estado = 0;
                     }
+                    else if(c == 32){
+                        //para que no entre en el else con los espacios
+                    }
+                    else if (c=='\n'){
+                        lineaArchivo++;
+                    }
                     else{ //Error de caracter no valido
-                        system.out.println("ERROR, caracter no valido");
-                        lexema = "";
-                        estado = 0;
+                        //Interprete.error(lineaArchivo,"error de caracter no valido");
                     }
                     break;
                 
@@ -276,9 +274,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-                        system.out.println("ERROR, caracter no valido");
-                        lexema = "";
-                        estado = 0;
+                        Interprete.error(lineaArchivo,"error de identificacion de numero");
                     }
                     break;
                 
@@ -311,9 +307,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-                        system.out.println("ERROR, caracter no valido");
-                        lexema = "";
-                        estado = 0;
+                        Interprete.error(lineaArchivo,"error de caracter no valido");
                     }
                     break;
 
@@ -323,9 +317,7 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-                        system.out.println("ERROR, caracter no valido");
-                        lexema = "";
-                        estado = 0;
+                        Interprete.error(lineaArchivo,"error de caracter no valido");
                     }
                     break;
                 
@@ -337,7 +329,6 @@ public class Scanner {
                     else{
                         Token t = new Token(TipoToken.NUMBER, lexema, Double.valueOf(lexema));
                         tokens.add(t);
-
                         estado = 0;
                         lexema = "";
                         i--;
@@ -346,12 +337,12 @@ public class Scanner {
 
                 case 24:
                     if(c == '\n'){ //Error de salto de linea
-
+                        Interprete.error(lineaArchivo,"error de caracter no valido");
                     }
                     else if(c == '"'){
-                        Token t = new Token(TipoToken.STRING, lexema, lexema.substring(1, lexema.length()-1));
+                        lexema+=c;
+                        Token t = new Token(TipoToken.STRING,lexema, lexema.substring(1, lexema.length()-1));
                         tokens.add(t);
-
                         estado = 0;
                         lexema = "";
                     }
@@ -364,16 +355,14 @@ public class Scanner {
                 case 26:
                     if(c == '*'){
                         estado = 27;
-                        lexema += c;
                     }
                     else if(c == '/'){
                         estado = 30;
-                        lexema += c;
                     }
                     else{
+                        lexema+=c;
                         Token t = new Token(TipoToken.SLASH, lexema, null);
                         tokens.add(t);
-
                         estado = 0;
                         lexema = "";
                         i--;
@@ -394,26 +383,21 @@ public class Scanner {
                 case 28:
                     if(c == '*'){
                         estado = 28;
-                        lexema += c;
                     }
                     else if(c == '/'){ //No genera token
                         estado = 0;
-                        lexema += c;
                     }
                     else{
                         estado = 27;
-                        lexema += c;
                     }
                     break;
                 
                 case 30:
                     if(c == '\n'){ //No genera token
                         estado = 0;
-                        lexema += c;
                     }
                     else{
                         estado = 30;
-                        lexema += c;
                     }
                     break;
             }
