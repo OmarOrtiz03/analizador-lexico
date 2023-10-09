@@ -78,7 +78,7 @@ public class Scanner {
                         */
 
                     }
-                    else if(c == '“'){
+                    else if(c == '"'){
                         estado = 24;
                         lexema += c;
                     }
@@ -283,7 +283,7 @@ public class Scanner {
                     if(c == '\n'){ //Error de salto de linea
 
                     }
-                    else if(c == '”'){
+                    else if(c == '"'){
                         Token t = new Token(TipoToken.STRING, lexema, lexema.substring(1, lexema.length-1));
                         tokens.add(t);
 
