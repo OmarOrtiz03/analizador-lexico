@@ -65,18 +65,6 @@ public class Scanner {
                     else if(Character.isDigit(c)){
                         estado = 15;
                         lexema += c;
-
-                        /*while(Character.isDigit(c)){
-                            lexema += c;
-                            i++;
-                            c = source.charAt(i);
-                        }
-                        Token t = new Token(TipoToken.NUMBER, lexema, Integer.valueOf(lexema));
-                        lexema = "";
-                        estado = 0;
-                        tokens.add(t);
-                        */
-
                     }
                     else if(c == '"'){
                         estado = 24;
@@ -288,7 +276,9 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-                    
+                        system.out.println("ERROR, caracter no valido");
+                        lexema = "";
+                        estado = 0;
                     }
                     break;
                 
@@ -321,7 +311,9 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-
+                        system.out.println("ERROR, caracter no valido");
+                        lexema = "";
+                        estado = 0;
                     }
                     break;
 
@@ -331,7 +323,9 @@ public class Scanner {
                         lexema += c;
                     }
                     else{ //Error
-
+                        system.out.println("ERROR, caracter no valido");
+                        lexema = "";
+                        estado = 0;
                     }
                     break;
                 
@@ -423,11 +417,7 @@ public class Scanner {
                     }
                     break;
             }
-
-
         }
-
-
         return tokens;
     }
 }
